@@ -6,14 +6,22 @@ const userSchema = mongoose.Schema({
   username: {
     type: String,
     unique: true,
+    require: true,
   },
   email: {
     type: String,
     unique: true,
+    require: true,
   },
-  name: String,
+  name: {
+    type: String,
+    require: true,
+  },
   fbid: String,
-  password: String,
+  password: {
+    type: String,
+    require: true,
+  },
 }, {
   timestamps: {
     createdAt: 'created_at',
