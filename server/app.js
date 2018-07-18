@@ -10,7 +10,7 @@ require('dotenv').config();
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
-mongoose.connect("mongodb://localhost:27017/socmed-aggregator", {
+mongoose.connect("mongodb://localhost:27017/todo-fancy", {
   useNewUrlParser: true
 });
 

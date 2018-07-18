@@ -1,10 +1,14 @@
 var express = require('express');
-const usersController = require('../controllers/users');
+const userController = require('../controllers/userController');
 var router = express.Router();
 
 /* GET users listing. */
-router.post('/register', function(req, res) {
-  usersController.register(req, res);
+router.post('/registerWithFB', function(req, res) {
+  userController.registerWithFB(req, res);
+});
+
+router.post('/registerWithForm', function(req, res) {
+  userController.registerWithForm(req, res);
 });
 
 module.exports = router;
