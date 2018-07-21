@@ -1,18 +1,19 @@
 const mongoose = require('mongoose');
-const post = require('../models/post');
-const user = require('../models/user')
+const todo = require('../models/todo');
+const user = require('../models/user');
 var jwt = require('jsonwebtoken');
+require('dotenv');
 
 class TodoController {
   static addNewTodo(req, res) {
     let token = req.headers.token;
-    jwt.verify(token, "secret", (err, decoded) => {
+    jwt.verify(token, process, (err, decoded) => {
       user.find({
-        id: decoded.username
+        username: decoded.username
       }, (err, currentUser) => {
         // console.log('hahaha ', currentUser)
         let id = currentUser[0].id;
-        post.create({
+        todo.create({
             content: req.body.content,
             owner: mongoose.Types.ObjectId(id),
           })
@@ -27,25 +28,6 @@ class TodoController {
 
       })
     })
-  }
-
-  static getTodoByUserfunction(req, res) {
-    postController.addNewTodo(req, res);
-  }
-  Id(req, res) {
-    post.find({
-        owner: req.params.userId,
-      })
-      .then((response) => {
-        res
-          .status(200)
-          .send(response);
-      })
-      .catch((err) => {
-        res
-          .status(400)
-          .send(err);
-      });
   }
 
 }

@@ -61,6 +61,9 @@ class UserController {
       });
   }
 
+  static signIn(req, res) {
+    
+  }
 }
 
 module.exports = UserController;
