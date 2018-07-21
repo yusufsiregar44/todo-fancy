@@ -10,8 +10,8 @@ require('dotenv').config();
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
-mongoose.connect('mongodb://<dbuser>:<dbpassword>@ds147391.mlab.com:47391/just-a-rather-fancy-todo', {
-  useNewUrlParser: true
+mongoose.connect(`mongodb://${process.env.DB_USER}:${process.env.DB_PASSWORD}@ds147391.mlab.com:47391/just-a-rather-fancy-todo`, {
+  useNewUrlParser: true,
 });
 
 const db = mongoose.connection;
@@ -30,7 +30,7 @@ app.use(cors());
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({
-  extended: false
+  extended: false,
 }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
