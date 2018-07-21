@@ -50,12 +50,12 @@ class UserController {
           }, process.env.JWT_SECRET_KEY, function (err, newlyCreatedJwtToken) {
             if (err) {
               res
+                .status(400)
                 .send(err)
-                .status(400);
             } else {
               res
+                .status(200)
                 .send(newlyCreatedJwtToken)
-                .status(200);
             }
           });
         })
@@ -73,12 +73,12 @@ class UserController {
               }, process.env.JWT_SECRET_KEY, function (err, newlyCreatedJwtToken) {
                 if (err) {
                   res
+                    .status(400)
                     .send(err)
-                    .status(400);
                 } else {
                   res
+                    .status(200)
                     .send(newlyCreatedJwtToken)
-                    .status(200);
                 }
               });
             });
@@ -88,15 +88,42 @@ class UserController {
 
   static login(req, res) {
     user.find({
-      where: {
-        email: req.body.email,
-      }
+      email: req.body.email,
     })
     .then((userData) => {
-      
+      bcrypt.compare(req.body.password, userData[0].password, function (err, response) {
+        console.log(response);
+        if (err) {
+          res
+            .status(400)
+            .send(err)
+        } else {
+          if (response === false) {
+            res
+              .status(401)
+              .send(err)
+          } else {
+            jwt.sign({
+              userId: userData[0]._id,
+            }, process.env.JWT_SECRET_KEY, function (err, newlyCreatedJwtToken) {
+              if (err) {
+                res
+                  .status(400)
+                  .send(err)
+              } else {
+                res
+                  .status(200)
+                  .send(newlyCreatedJwtToken)
+              }
+            });
+          }
+        }
+      });
     })
     .catch((err) => {
-      res.status(400);
+      res
+        .status(400)
+        .send(err)
     })
   }
 }
