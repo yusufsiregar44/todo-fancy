@@ -10,7 +10,7 @@ require('dotenv').config();
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
-mongoose.connect("mongodb://localhost:27017/todo-fancy", {
+mongoose.connect('mongodb://<dbuser>:<dbpassword>@ds147391.mlab.com:47391/just-a-rather-fancy-todo', {
   useNewUrlParser: true
 });
 
