@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const schema = mongoose.Schema;
+const Schema = mongoose.Schema;
 
 const userSchema = mongoose.Schema({
   email: {
@@ -14,8 +14,12 @@ const userSchema = mongoose.Schema({
   fbid: String,
   password: {
     type: String,
-    minlength: 10,
+    minlength: 8,
   },
+  todos: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Todo',
+  }]
 }, {
   timestamps: {
     createdAt: 'created_at',

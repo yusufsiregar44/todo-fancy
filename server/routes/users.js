@@ -3,12 +3,8 @@ const userController = require('../controllers/userController');
 var router = express.Router();
 
 /* GET users listing. */
-router.post('/registerWithFB', function(req, res) {
-  userController.registerWithFB(req, res);
-});
+router.post('/registerWithFB', userController.registerWithFB);
 
-router.post('/registerWithForm', function(req, res) {
-  userController.registerWithForm(req, res);
-});
+router.post('/registerWithForm', userController.registerWithForm);
 
 module.exports = router;
