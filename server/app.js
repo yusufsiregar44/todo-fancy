@@ -7,7 +7,7 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 require('dotenv').config();
 
-var indexRouter = require('./routes/index');
+var todosRouter = require('./routes/todos');
 var usersRouter = require('./routes/users');
 
 mongoose.connect(`mongodb://${process.env.DB_USER}:${process.env.DB_PASSWORD}@ds147391.mlab.com:47391/just-a-rather-fancy-todo`, {
@@ -35,7 +35,7 @@ app.use(express.urlencoded({
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
+app.use('/', todosRouter);
 app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
