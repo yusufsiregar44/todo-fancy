@@ -26,7 +26,7 @@ class UserController {
       })
       .catch((err) => {
         res
-          .status(400)
+          .status(500)
           .send(err);
       });
   }
@@ -50,7 +50,7 @@ class UserController {
           }, process.env.JWT_SECRET_KEY, function (err, newlyCreatedJwtToken) {
             if (err) {
               res
-                .status(400)
+                .status(500)
                 .send(err)
             } else {
               res
@@ -73,7 +73,7 @@ class UserController {
               }, process.env.JWT_SECRET_KEY, function (err, newlyCreatedJwtToken) {
                 if (err) {
                   res
-                    .status(400)
+                    .status(500)
                     .send(err)
                 } else {
                   res
@@ -95,7 +95,7 @@ class UserController {
         console.log(response);
         if (err) {
           res
-            .status(400)
+            .status(500)
             .send(err)
         } else {
           if (response === false) {
@@ -108,7 +108,7 @@ class UserController {
             }, process.env.JWT_SECRET_KEY, function (err, newlyCreatedJwtToken) {
               if (err) {
                 res
-                  .status(400)
+                  .status(500)
                   .send(err)
               } else {
                 res

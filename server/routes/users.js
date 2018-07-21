@@ -9,7 +9,4 @@ router.post('/loginWithFB', userController.loginWithFB);
 
 router.post('/login', userController.login);
 
-
-
-
 module.exports = router;
