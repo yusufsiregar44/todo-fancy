@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const FB = require('fb');
 const jwt = require('jsonwebtoken');
 const user = require('../models/user');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 
 class UserController {
   static registerWithForm(req, res) {

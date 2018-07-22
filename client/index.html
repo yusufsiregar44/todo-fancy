@@ -1,54 +1,74 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>My first Bulma website</title>
-    <link rel="stylesheet" href="css/main.css">
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script defer src="https://use.fontawesome.com/releases/v5.1.0/js/all.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
-  </head>
-  <body>
-    <script src="./lib/facebookLogin.js"></script>
-    <div id="app">
-      <nav class="navbar header has-shadow is-primary is-transparent" role="navigation" aria-label="main navigation">
-        <div class="navbar-brand">
-          <h1 class="title is-4" style="margin: 10px">justaratherfancyToDo</h1>
-        </div>
-        <div class="navbar-menu">
-          <div class="navbar-end">
-            <div class="navbar-item" v-on:click="tweet"><a class="button is-outlined is-light"><span class="icon"><i class="fab fa-twitter"></i></span><span>Tweet</span></a></div>
-          </div>
-        </div>
-      </nav>
-      <section class="hero is-fullheight is-primary">
-        <div class="hero-body">
-          <div class="container has-text centered">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>My first Bulma website</title>
+  <link rel="stylesheet" href="css/main.css">
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script defer src="https://use.fontawesome.com/releases/v5.1.0/js/all.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+</head>
+
+<body>
+  <script src="./lib/facebookLogin.js"></script>
+  <div id="app">
+    <nav class="navbar header has-shadow is-primary is-transparent" role="navigation" aria-label="main navigation">
+      <div class="navbar-brand">
+        <h1 class="title is-4" style="margin: 10px">justaratherfancyToDo</h1>
+      </div>
+      <div class="navbar-menu">
+        <div class="navbar-end">
+          <div v-if="">
 
           </div>
-        </div>
-      </section>
-    </div>
-    <footer class="footer has-text-centered">
-      <div class="container">
-        <div class="columns">
-          <div class="column is-8-desktop is-offset-2-desktop">
-            <p>
-              <strong class="has-text-weight-semibold">
-                Made with <i class="fas fa-heart" style="color:#FF1493"></i> By <a href="https://github.com/yusufsiregar44" style="color:#3273dc">Yusuf Siregar</a>
-              </strong>
-            </p>
-            <p>
-              <small>
-                <a href="https://github.com/yusufsiregar44/todo-fancy">justaratherfancyToDo</a> and the <a href="https://bulma.io/" style="color:#3273dc">Bulma</a> source code is licensed under <a href="http://opensource.org/licenses/mit-license.php" style="color:#3273dc">MIT</a>
-              </small>
-            </p>
+          <div class="navbar-item">
+
           </div>
+
         </div>
       </div>
-    </footer>
-    <script type="text/javascript" src="lib/main.js"></script>
-  </body>
+    </nav>
+    <section class="hero is-fullheight is-primary">
+      <div class="hero-head">
+      </div>
+
+      <!-- Hero content: will be in the middle -->
+      <div class="hero-body">
+        <div class="container has-text-centered">
+          <h1 class="title">justaratherfancyToDo</h1>
+          <h2 class="subtitle">A ToDO web app built for humans</h2>
+          <h5 class="subtitle">Register</h5>
+          <name-field v-model="registrationName"></name-field>
+          <email-field v-model="registrationEmail"></email-field>
+          <password-field v-model="registrationPassword"></password-field>
+            <a class="button is-primary is-inverted " v-on:click='register'>Submit</a>
+        </div>
+      </div>
+
+    </section>
+  </div>
+  <footer class="footer has-text-centered">
+    <div class="container">
+      <div class="columns">
+        <div class="column is-8-desktop is-offset-2-desktop">
+          <p>
+            <strong class="has-text-weight-semibold">
+              Made with <i class="fas fa-heart" style="color:#FF1493"></i> By <a href="https://github.com/yusufsiregar44" style="color:#3273dc">Yusuf Siregar</a>
+            </strong>
+          </p>
+          <p>
+            <small>
+              <a href="https://github.com/yusufsiregar44/todo-fancy">justaratherfancyToDo</a> and the <a href="https://bulma.io/" style="color:#3273dc">Bulma</a> source code is licensed under <a href="http://opensource.org/licenses/mit-license.php" style="color:#3273dc">MIT</a>
+            </small>
+          </p>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <script type="text/javascript" src="lib/main.js"></script>
+</body>
+
 </html>
