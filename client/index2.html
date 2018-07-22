@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Home</title>
+<meta charset="UTF-8">
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<body>
+<script src="./lib/facebookLogin.js"></script>
+<fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
+</fb:login-button>
+
+<div class="login">
+  Login
+  <form class="" action="index.html" method="post">
+    Email
+    <input type="text" name="email" value="">
+    Password
+    <input type="text" name="password" value="">
+  </form>
+</div>
+
+<div class="register">
+  Register
+  <form class="" action="index.html" method="post">
+    Email
+    <input type="text" name="email" value="">
+    Full Name
+    <input type="text" name="full-name" value="">
+    Password
+    <input type="text" name="password" value="">
+  </form>
+</div>
+
+<div id="status">
+</div>
+
+</body>
+</html>
