@@ -54,6 +54,24 @@ class TodoController {
       }
     });
   }
+
+  static read(req, res) {
+    let token = req.headers.token;
+    let decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+    todo.find({
+      owner: decoded._id,
+    })
+    .then((todoData) => {
+      res
+        .status(200)
+        .send(todoData);
+    })
+    .catch((err) => {
+      res
+        .status(400)
+        .send(todoData);
+    });
+  }
 }
 
 module.exports = TodoController;
