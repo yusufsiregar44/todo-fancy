@@ -5,7 +5,7 @@ var jwt = require('jsonwebtoken');
 require('dotenv');
 
 class TodoController {
-  static createTodo(req, res) {
+  static create(req, res) {
     let token = req.headers.token;
     let decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
     console.log(decoded);
@@ -20,11 +20,26 @@ class TodoController {
       } else {
         res
           .status(200)
-          .send(response)
+          .send(response);
       }
     });
   }
 
+  static update(req, res) {
+    todo.findByIdAndUpdate(req.body.id, {
+      content: req.body.content,
+    }, function (err, response) {
+      if (err) {
+        res
+          .status(400)
+          .send(err);
+      } else {
+        res
+          .status(200)
+          .send(response);
+      }
+    });
+  }
 }
 
 module.exports = TodoController;

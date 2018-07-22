@@ -7,11 +7,10 @@ function verifyToken(req, res, next) {
       if (err) {
         res
           .status(400)
-          .send(err)
+          .send(err);
       } else {
-        console.log('decoded', decoded);
+        next();
       }
-      next();
     }
   );
 }
