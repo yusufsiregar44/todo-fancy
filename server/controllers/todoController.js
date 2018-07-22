@@ -40,6 +40,20 @@ class TodoController {
       }
     });
   }
+
+  static delete(req, res) {
+    todo.findByIdAndDelete(req.body.id, function (err, response) {
+      if (err) {
+        res
+          .status(400)
+          .send(err);
+      } else {
+        res
+          .status(200)
+          .send(response);
+      }
+    });
+  }
 }
 
 module.exports = TodoController;
