@@ -11,7 +11,7 @@ class TodoController {
     console.log(decoded);
     todo.create({
       content: req.body.content,
-      owner: decoded.id,
+      owner: decoded._id,
     }, function (err, response) {
       if (err) {
         res
@@ -26,7 +26,7 @@ class TodoController {
   }
 
   static update(req, res) {
-    todo.findByIdAndUpdate(req.body.id, {
+    todo.findByIdAndUpdate(req.params.id, {
       content: req.body.content,
     }, function (err, response) {
       if (err) {
@@ -42,7 +42,7 @@ class TodoController {
   }
 
   static delete(req, res) {
-    todo.findByIdAndDelete(req.body.id, function (err, response) {
+    todo.findByIdAndDelete(req.params.id, function (err, response) {
       if (err) {
         res
           .status(400)

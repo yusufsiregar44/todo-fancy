@@ -46,7 +46,7 @@ class UserController {
         .then((userData) => {
           console.log('logging in');
           jwt.sign({
-            id: userData._id,
+            _id: userData._id,
             name: userData.name,
             email: userData.email,
             fbid: userData.fbid
@@ -72,7 +72,7 @@ class UserController {
             })
             .then((newlyRegistredUserData) => {
               jwt.sign({
-                id: newlyRegistredUserData._id,
+                _id: newlyRegistredUserData._id,
                 name: newlyRegistredUserData.name,
                 email: newlyRegistredUserData.email,
                 fbid: newlyRegistredUserData.fbid,
@@ -110,7 +110,7 @@ class UserController {
               .send(err)
           } else {
             jwt.sign({
-              id: userData[0]._id,
+              _id: userData[0]._id,
               name: userData[0].name,
               email: userData[0].email,
             }, process.env.JWT_SECRET_KEY, function (err, newlyCreatedJwtToken) {

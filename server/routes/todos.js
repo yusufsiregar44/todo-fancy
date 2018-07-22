@@ -4,8 +4,8 @@ var router = express.Router();
 
 router.post('/create', todoController.create);
 
-router.put('/update', todoController.update);
+router.put('/update/:id', todoController.update);
 
-router.delete('/delete', todoController.delete);
+router.delete('/delete/:id', todoController.delete);
 
 module.exports = router;
