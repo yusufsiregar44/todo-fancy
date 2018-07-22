@@ -1,9 +1,7 @@
 var express = require('express');
+const todoController = require('../controllers/todoController');
 var router = express.Router();
 
-/* GET home page. */
-router.get('/createTodo', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
+router.post('/createTodo', todoController.createTodo);
 
 module.exports = router;

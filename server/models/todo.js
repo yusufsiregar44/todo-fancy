@@ -8,7 +8,7 @@ const todoSchema = mongoose.Schema({
   },
   importance: {
     type: Number,
-    required: true,
+    // required: true,
     enum: [1, 2, 3],
   },
   owner: {

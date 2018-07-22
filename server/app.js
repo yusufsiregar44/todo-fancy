@@ -9,7 +9,7 @@ require('dotenv').config();
 
 var todosRouter = require('./routes/todos');
 var usersRouter = require('./routes/users');
-const module = require('module');
+const authentication = require('./middlewares/authentication');
 
 mongoose.connect(`mongodb://${process.env.DB_USER}:${process.env.DB_PASSWORD}@ds147391.mlab.com:47391/just-a-rather-fancy-todo`, {
   useNewUrlParser: true,
@@ -36,7 +36,7 @@ app.use(express.urlencoded({
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/todos', todosRouter);
+app.use('/todos', authentication, todosRouter);
 app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler

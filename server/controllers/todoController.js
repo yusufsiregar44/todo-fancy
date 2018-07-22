@@ -5,29 +5,24 @@ var jwt = require('jsonwebtoken');
 require('dotenv');
 
 class TodoController {
-  static addNewTodo(req, res) {
+  static createTodo(req, res) {
     let token = req.headers.token;
-    jwt.verify(token, process, (err, decoded) => {
-      user.find({
-        username: decoded.username
-      }, (err, currentUser) => {
-        // console.log('hahaha ', currentUser)
-        let id = currentUser[0].id;
-        todo.create({
-            content: req.body.content,
-            owner: mongoose.Types.ObjectId(id),
-          })
-          .then((response) => {
-            res.json(response);
-          })
-          .catch((err) => {
-            res
-              .status(400)
-              .send(err);
-          });
-
-      })
-    })
+    let decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+    console.log(decoded);
+    todo.create({
+      content: req.body.content,
+      owner: decoded.id,
+    }, function (err, response) {
+      if (err) {
+        res
+          .status(500)
+          .send(err);
+      } else {
+        res
+          .status(200)
+          .send(response)
+      }
+    });
   }
 
 }

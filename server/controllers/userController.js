@@ -46,7 +46,10 @@ class UserController {
         .then((userData) => {
           console.log('logging in');
           jwt.sign({
-            userId: userData._id,
+            id: userData._id,
+            name: userData.name,
+            email: userData.email,
+            fbid: userData.fbid
           }, process.env.JWT_SECRET_KEY, function (err, newlyCreatedJwtToken) {
             if (err) {
               res
@@ -69,7 +72,10 @@ class UserController {
             })
             .then((newlyRegistredUserData) => {
               jwt.sign({
-                userId: newlyRegistredUserData._id,
+                id: newlyRegistredUserData._id,
+                name: newlyRegistredUserData.name,
+                email: newlyRegistredUserData.email,
+                fbid: newlyRegistredUserData.fbid,
               }, process.env.JWT_SECRET_KEY, function (err, newlyCreatedJwtToken) {
                 if (err) {
                   res
@@ -104,13 +110,16 @@ class UserController {
               .send(err)
           } else {
             jwt.sign({
-              userId: userData[0]._id,
+              id: userData[0]._id,
+              name: userData[0].name,
+              email: userData[0].email,
             }, process.env.JWT_SECRET_KEY, function (err, newlyCreatedJwtToken) {
               if (err) {
                 res
                   .status(500)
                   .send(err)
               } else {
+                console.log(newlyCreatedJwtToken);
                 res
                   .status(200)
                   .send(newlyCreatedJwtToken)

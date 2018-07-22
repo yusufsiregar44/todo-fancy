@@ -16,10 +16,6 @@ const userSchema = mongoose.Schema({
     type: String,
     minlength: 8,
   },
-  todos: [{
-    type: Schema.Types.ObjectId,
-    ref: 'Todo',
-  }],
 }, {
   timestamps: {
     createdAt: 'created_at',
