@@ -1,8 +1,6 @@
-const mongoose = require('mongoose');
 const todo = require('../models/todo');
 const user = require('../models/user');
 var jwt = require('jsonwebtoken');
-require('dotenv');
 
 class TodoController {
   static create(req, res) {

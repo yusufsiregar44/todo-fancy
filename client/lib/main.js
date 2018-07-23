@@ -91,9 +91,18 @@ var vm = new Vue({
   el: '#app',
   data: {
     isLoggedIn: false,
+    name: null,
+    email: null,
+    _id: null,
+  },
+  created() {
+    this.decode();
   },
   methods: {
     register() {
+      console.log(this.registrationEmail);
+      console.log(this.registrationName);
+      console.log(this.registrationPassword);
       axios.post('http://localhost:3000/users/registerWithForm', {
         email: this.registrationEmail,
         name: this.registrationName,
@@ -101,6 +110,24 @@ var vm = new Vue({
       })
       .then(() => {
         window.alert('Successfully registered');
+        location.reload(true);
+      })
+      .catch((err) => {
+        console.log(err);
+        window.alert('Invalid name/email/password');
+      });
+    },
+    decode() {
+
+    },
+    login() {
+      axios.post('http://localhost:3000/users/login', {
+        email: this.loginEmail,
+        password: this.loginPassword,
+      })
+      .then((res) => {
+        localStorage.userJwt = res.data;
+        window.alert('Successfully logged in');
         location.reload(true);
       })
       .catch(() => {

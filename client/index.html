@@ -22,7 +22,9 @@
       </div>
       <div class="navbar-menu">
         <div class="navbar-end">
-          <a class="navbar-item" v-if="isLoggedIn === false">Login</a>
+          <a class="navbar-item" v-if="isLoggedIn === false">
+            <a class="button is-primary is-inverted " v-on:click='login' style="margin: 8px">Login</a>
+          </a>
           <a class="navbar-item" v-if="isLoggedIn === false">
             <email-field v-model="loginEmail"></email-field>
           </a>

@@ -16,6 +16,7 @@ function statusChangeCallback(response) {
       .then(function(res) {
         console.log(res.data);
         localStorage.userJwt = res.data;
+        window.alert('Successfully logged in');
       })
       .catch(function(err) {
         console.log(err);
