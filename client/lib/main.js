@@ -24,7 +24,7 @@ Vue.component('name-field', {
   template: `
   <div class="field">
     <p class="control has-icons-left has-icons-right">
-      <input class="input is-small" name="name" type="text" placeholder="Full Name" v-model="inputVal">
+      <input class="input is-small" name="name" type="text" placeholder="Full Name" v-model="inputVal" required>
       <span class="icon is-small is-left">
         <i class="fas fa-user"></i>
       </span>
@@ -51,7 +51,7 @@ Vue.component('email-field', {
   template: `
   <div class="field">
     <p class="control has-icons-left has-icons-right">
-      <input class="input is-small" name="email" type="text" placeholder="Email" v-model="inputVal">
+      <input class="input is-small" name="email" type="text" placeholder="Email" v-model="inputVal" required>
       <span class="icon is-small is-left">
         <i class="fas fa-envelope"></i>
       </span>
@@ -78,7 +78,7 @@ Vue.component('password-field', {
   template: `
   <div class="field">
     <p class="control has-icons-left">
-      <input class="input is-small" name="password" type="password" placeholder="Password" v-model="inputVal">
+      <input class="input is-small" name="password" type="password" placeholder="Password" v-model="inputVal" required>
       <span class="icon is-small is-left">
         <i class="fas fa-lock"></i>
       </span>
@@ -94,9 +94,18 @@ var vm = new Vue({
   },
   methods: {
     register() {
-      console.log(this.registrationName);
-      console.log(this.registrationEmail);
-      console.log(this.registrationPassword);
+      axios.post('http://localhost:3000/users/registerWithForm', {
+        email: this.registrationEmail,
+        name: this.registrationName,
+        password: this.registrationPassword,
+      })
+      .then(() => {
+        window.alert('Successfully registered');
+        location.reload(true);
+      })
+      .catch(() => {
+        window.alert('Invalid name/email/password');
+      });
     },
   },
 });

@@ -1,3 +1,4 @@
+
 // This is called with the results from from FB.getLoginStatus().
 function statusChangeCallback(response) {
   console.log('statusChangeCallback');
@@ -13,8 +14,8 @@ function statusChangeCallback(response) {
         token: authTokenFB,
       })
       .then(function(res) {
+        console.log(res.data);
         localStorage.userJwt = res.data;
-          window.location.href = "http://localhost:8080/dashboard.html";
       })
       .catch(function(err) {
         console.log(err);

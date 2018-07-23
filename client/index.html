@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>My first Bulma website</title>
+  <title>justaratherfancyToDo</title>
   <link rel="stylesheet" href="css/main.css">
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   <script defer src="https://use.fontawesome.com/releases/v5.1.0/js/all.js"></script>
@@ -13,6 +13,7 @@
 </head>
 
 <body>
+  <div id="fb-root"></div>
   <script src="./lib/facebookLogin.js"></script>
   <div id="app">
     <nav class="navbar header has-shadow is-primary is-transparent" role="navigation" aria-label="main navigation">
@@ -21,17 +22,22 @@
       </div>
       <div class="navbar-menu">
         <div class="navbar-end">
-          <div v-if="">
-
-          </div>
-          <div class="navbar-item">
-
-          </div>
-
+          <a class="navbar-item" v-if="isLoggedIn === false">Login</a>
+          <a class="navbar-item" v-if="isLoggedIn === false">
+            <email-field v-model="loginEmail"></email-field>
+          </a>
+          <a class="navbar-item" v-if="isLoggedIn === false">
+            <password-field v-model="loginPassword"></password-field>
+          </a>
+          <a class="navbar-item" v-if="isLoggedIn === false">or</a>
+          <a class="navbar-item" v-if="isLoggedIn === false">
+            <div class="fb-login-button" data-max-rows="1" data-size="medium" data-button-type="login_with" data-show-faces="false" data-auto-logout-link="false" data-use-continue-as="false" onlogin="checkLoginState();"></div>
+          </a>
         </div>
       </div>
     </nav>
-    <section class="hero is-fullheight is-primary">
+
+    <section class="hero is-fullheight is-primary" v-if="isLoggedIn === false">
       <div class="hero-head">
       </div>
 
@@ -44,7 +50,9 @@
           <name-field v-model="registrationName"></name-field>
           <email-field v-model="registrationEmail"></email-field>
           <password-field v-model="registrationPassword"></password-field>
-            <a class="button is-primary is-inverted " v-on:click='register'>Submit</a>
+          <button type="" name="button">
+              <a class="button is-primary is-inverted " v-on:click='register'>Submit</a>
+            </button>
         </div>
       </div>
 
