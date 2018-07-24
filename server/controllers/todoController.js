@@ -41,6 +41,7 @@ class TodoController {
 
   static delete(req, res) {
     todo.findByIdAndDelete(req.params.id, function (err, response) {
+      console.log("masuk delete");
       if (err) {
         res
           .status(400)

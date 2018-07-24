@@ -42,7 +42,7 @@ Vue.component('create-todo', {
   </div>
   `,
   methods: {
-    close () {
+    close() {
       this.$emit('close');
     },
     create() {
@@ -58,7 +58,7 @@ Vue.component('update-todo', {
     };
   },
   watch: {
-    datatodo: function(n, o) {
+    datatodo: function (n, o) {
       this.inputVal = n[0];
     },
   },
@@ -89,7 +89,7 @@ Vue.component('update-todo', {
   </div>
   `,
   methods: {
-    close () {
+    close() {
       this.$emit('close')
     },
     update() {
@@ -98,18 +98,58 @@ Vue.component('update-todo', {
   }
 });
 
+Vue.component('remove-todo', {
+  props: ['datatodo'],
+  template: `
+  <div class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+      <div class="modal-card-body">
+        <div class="box">
+          <div class="card">
+            <div class="card-content">
+              <p class="title">{{ datatodo[0] }}</p>
+              <br>
+              <p class="subtitle is-6">Created At: {{ datatodo[1] }}</p>
+              <p class="subtitle is-6">Updated At: {{ datatodo[2] }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <footer class="modal-card-foot">
+        <div class="content has-text-centered">
+          <a class="button is-danger is-focused" @click="remove" style="margin: 10px">Remove</a>
+          <a class="button is-success is-focused" @click="close" style="margin: 10px">I'll rethink about it</a>
+          <span>&nbsp;</span>
+        </div>
+      </footer>
+    </div>
+  </div>
+  `,
+  methods: {
+    close() {
+      this.$emit('close')
+    },
+    remove() {
+      this.$emit('remove', this.datatodo[3]);
+    },
+  }
+});
+
 Vue.component('todo', {
   data() {
-    return {todoContent: this.todo.content, todoId: this.todo._id};
+    return {
+      todoContent: this.todo.content,
+      todoId: this.todo._id,
+      todoCreatedAt: this.todo.created_at,
+      todoUpdatedAt: this.todo.updated_at,
+    };
   },
   props: ['todo'],
   template: `
   <div class="column is-one-third">
     <div class="card">
       <div class="card-content">
-        <figure class="">
-          <img>
-        </figure>
         <p class="title">{{ todo.content }}</p>
         <br>
         <p class="subtitle is-6">Created At: {{ todo.created_at }}</p>
@@ -127,8 +167,8 @@ Vue.component('todo', {
           </a>
         </div>
         <div class="card-footer-item">
-          <a class="button">
-            Delete
+          <a class="button" @click="remove">
+            Remove
           </a>
         </div>
       </footer>
@@ -138,6 +178,9 @@ Vue.component('todo', {
   methods: {
     update() {
       this.$emit('update', [this.todoContent, this.todoId])
+    },
+    remove() {
+      this.$emit('remove', [this.todoContent, this.todoCreatedAt, this.todoUpdatedAt, this.todoId])
     },
   }
 });
@@ -231,6 +274,8 @@ var vm = new Vue({
     createModalActive: false,
     updateModalActive: false,
     updateModalData: null,
+    removeModalActive: false,
+    removeModalData: null,
   },
   created() {
     this.decode();
@@ -295,7 +340,7 @@ var vm = new Vue({
       location.reload(true);
     },
     getToDos() {
-      axios.get('http://localhost:3000/todos/read', {
+      axios.get('http://localhost:3000/todos/', {
         'headers': {
           'token': localStorage.userJwt,
         },
@@ -318,6 +363,11 @@ var vm = new Vue({
     close() {
       this.createModalActive = false;
       this.updateModalActive = false;
+      this.removeModalActive = false;
+    },
+    openRemove(e) {
+      this.removeModalData = e;
+      this.removeModalActive = true;
     },
     openCreate() {
       this.createModalActive = true;
@@ -329,38 +379,54 @@ var vm = new Vue({
     },
     create(e) {
       this.createModalActive = false;
-      axios.post('http://localhost:3000/todos/create', {
-        content: e,
-      }, {
-        'headers': {
-          'token': localStorage.userJwt,
-        },
-      }).then((userToDos) => {
-        this.todos = userToDos.data;
-        window.alert('Successfully created a new ToDo');
-        location.reload(true);
-      })
-      .catch((err) => {
-        window.alert('something went wrong');
-        location.reload(true);
-      });
+      axios.post('http://localhost:3000/todos', {
+          content: e,
+        }, {
+          'headers': {
+            'token': localStorage.userJwt,
+          },
+        }).then((userToDos) => {
+          this.todos = userToDos.data;
+          window.alert('Successfully created a new ToDo');
+          location.reload(true);
+        })
+        .catch((err) => {
+          window.alert('something went wrong');
+          location.reload(true);
+        });
     },
     update(e) {
-      axios.put(`http://localhost:3000/todos/update/${e[1]}`, {
-        content: e[0],
-      }, {
-        'headers': {
-          'token': localStorage.userJwt,
-        },
-      }).then((userToDos) => {
-        this.todos = userToDos.data;
-        window.alert('Successfully updated ToDo');
-        location.reload(true);
-      })
-      .catch((err) => {
-        window.alert('something went wrong');
-        location.reload(true);
-      });
-    }
+      axios.put(`http://localhost:3000/todos/${e[1]}`, {
+          content: e[0],
+        }, {
+          'headers': {
+            'token': localStorage.userJwt,
+          },
+        }).then((userToDos) => {
+          this.todos = userToDos.data;
+          window.alert('Successfully updated ToDo');
+          location.reload(true);
+        })
+        .catch((err) => {
+          window.alert('something went wrong');
+          location.reload(true);
+        });
+    },
+    remove(e) {
+      console.log(e);
+      axios.delete(`http://localhost:3000/todos/${e}`, {
+          'headers': {
+            'token': localStorage.userJwt,
+          },
+        }).then((userToDos) => {
+          window.alert('Successfully deleted ToDo');
+          location.reload(true);
+        })
+        .catch((err) => {
+          console.log(err);
+          window.alert('something went wrong');
+          location.reload(true);
+        });
+    },
   },
 });
