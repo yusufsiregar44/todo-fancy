@@ -51,7 +51,57 @@ Vue.component('create-todo', {
   }
 });
 
+Vue.component('update-todo', {
+  data() {
+    return {
+      inputVal: '',
+    };
+  },
+  watch: {
+    datatodo: function(n, o) {
+      this.inputVal = n[0];
+    },
+  },
+  props: ['value', 'datatodo'],
+  template: `
+  <div class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-content">
+      <div class="box">
+        <div class="content has-text-centered">
+        <div class="field">
+          <p class="control has-icons-left has-icons-right">
+            <input class="input is-small" name="name" type="text" required v-model="inputVal">
+            <span class="icon is-small is-left">
+              <i class="fas fa-list-ul"></i>
+            </span>
+            <span class="icon is-small is-right">
+              <i class="fas fa-check"></i>
+            </span>
+          </p>
+        </div>
+          <a class="button is-success is-focused" @click="update">Update</a>
+          <span>&nbsp;</span>
+        </div>
+      </div>
+    </div>
+    <button @click="close" class="modal-close"></button>
+  </div>
+  `,
+  methods: {
+    close () {
+      this.$emit('close')
+    },
+    update() {
+      this.$emit('update', [this.inputVal, this.datatodo[1]]);
+    },
+  }
+});
+
 Vue.component('todo', {
+  data() {
+    return {todoContent: this.todo.content, todoId: this.todo._id};
+  },
   props: ['todo'],
   template: `
   <div class="column is-one-third">
@@ -72,14 +122,24 @@ Vue.component('todo', {
           </a>
         </div>
         <div class="card-footer-item">
-          <a class="button">
+          <a class="button" @click="update">
             Update
+          </a>
+        </div>
+        <div class="card-footer-item">
+          <a class="button">
+            Delete
           </a>
         </div>
       </footer>
     </div>
   </div>
   `,
+  methods: {
+    update() {
+      this.$emit('update', [this.todoContent, this.todoId])
+    },
+  }
 });
 
 Vue.component('name-field', {
@@ -168,7 +228,9 @@ var vm = new Vue({
     email: null,
     id: null,
     todos: null,
-    modalActive: false,
+    createModalActive: false,
+    updateModalActive: false,
+    updateModalData: null,
   },
   created() {
     this.decode();
@@ -254,13 +316,19 @@ var vm = new Vue({
       })
     },
     close() {
-      this.modalActive = false;
+      this.createModalActive = false;
+      this.updateModalActive = false;
     },
-    open() {
-      this.modalActive = true;
+    openCreate() {
+      this.createModalActive = true;
+    },
+    openUpdate(e) {
+      console.log('---', e);
+      this.updateModalData = e;
+      this.updateModalActive = true;
     },
     create(e) {
-      this.modalActive = false;
+      this.createModalActive = false;
       axios.post('http://localhost:3000/todos/create', {
         content: e,
       }, {
@@ -270,6 +338,23 @@ var vm = new Vue({
       }).then((userToDos) => {
         this.todos = userToDos.data;
         window.alert('Successfully created a new ToDo');
+        location.reload(true);
+      })
+      .catch((err) => {
+        window.alert('something went wrong');
+        location.reload(true);
+      });
+    },
+    update(e) {
+      axios.put(`http://localhost:3000/todos/update/${e[1]}`, {
+        content: e[0],
+      }, {
+        'headers': {
+          'token': localStorage.userJwt,
+        },
+      }).then((userToDos) => {
+        this.todos = userToDos.data;
+        window.alert('Successfully updated ToDo');
         location.reload(true);
       })
       .catch((err) => {

@@ -71,16 +71,22 @@
 
     <section v-if="isLoggedIn === true">
       <div class="container has-text-centered" style="margin-top: 20px">
-        <a class="button is-primary" @click="open">Create New ToDo</a>
+        <a class="button is-primary" @click="openCreate">Create New ToDo</a>
       </div>
 
-    <create-todo v-bind:class="{'is-active':modalActive}" @close="close" @create="create">
+    <create-todo v-bind:class="{'is-active':createModalActive}" @close="close" @create="create">
+
 
     </create-todo>
+
+    <update-todo v-bind:class="{'is-active':updateModalActive}" @close="close" @update="update" :datatodo="updateModalData">
+
+    </update-todo>
 
       <div class="columns is-multiline" style="margin:10px">
         <todo
          v-for="(todo, index) in todos" :todo="todo"
+        @update="openUpdate"
         ></todo>
       </div>
     </section>
