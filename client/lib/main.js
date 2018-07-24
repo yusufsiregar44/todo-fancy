@@ -62,8 +62,8 @@ Vue.component('todo', {
         </figure>
         <p class="title">{{ todo.content }}</p>
         <br>
-        <p class="subtitle is-6">Created At: </p>
-        <p class="subtitle is-6">Updated At:</p>
+        <p class="subtitle is-6">Created At: {{ todo.created_at }}</p>
+        <p class="subtitle is-6">Updated At: {{ todo.updated_at }}</p>
       </div>
       <footer class="card-footer">
         <div class="card-footer-item">
@@ -238,11 +238,19 @@ var vm = new Vue({
           'token': localStorage.userJwt,
         },
       }).then((userToDos) => {
-        this.todos = userToDos.data;
-      })
-      .catch((err) => {
-        window.alert('something went wrong');
-        location.reload(true);
+        let processedUserToDos = userToDos.data.map((todo) => {
+          let c = new Date(todo.created_at);
+          let u = new Date(todo.updated_at)
+          return {
+            _id: todo._id,
+            content: todo.content,
+            owner: todo.owner,
+            created_at: `${c.getDate()}-${c.getMonth()}-${c.getFullYear()}`,
+            updated_at: `${u.getDate()}-${u.getMonth()}-${u.getFullYear()}`,
+          }
+        });
+        console.log(processedUserToDos);
+        this.todos = processedUserToDos;
       })
     },
     close() {
