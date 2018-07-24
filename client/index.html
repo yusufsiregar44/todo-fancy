@@ -68,6 +68,23 @@
       </div>
 
     </section>
+
+    <section v-if="isLoggedIn === true">
+      <div class="container has-text-centered" style="margin-top: 20px">
+        <a class="button is-primary" @click="open">Create New ToDo</a>
+      </div>
+
+    <create-todo v-bind:class="{'is-active':modalActive}" @close="close" @create="create">
+
+    </create-todo>
+
+      <div class="columns is-multiline" style="margin:10px">
+        <todo
+         v-for="(todo, index) in todos" :todo="todo"
+        ></todo>
+      </div>
+    </section>
+
   </div>
   <footer class="footer has-text-centered">
     <div class="container">

@@ -9,6 +9,79 @@ Vue.component('tweet-button', {
   },
 });
 
+Vue.component('create-todo', {
+  data() {
+    return {
+      inputVal: this.value,
+    };
+  },
+  props: ['value'],
+  template: `
+  <div class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-content">
+      <div class="box">
+        <div class="content has-text-centered">
+        <div class="field">
+          <p class="control has-icons-left has-icons-right">
+            <input class="input is-small" name="name" type="text" placeholder="Content" v-model="inputVal" required>
+            <span class="icon is-small is-left">
+              <i class="fas fa-list-ul"></i>
+            </span>
+            <span class="icon is-small is-right">
+              <i class="fas fa-check"></i>
+            </span>
+          </p>
+        </div>
+          <a class="button is-success is-focused" @click="create">Create</a>
+          <span>&nbsp;</span>
+        </div>
+      </div>
+    </div>
+    <button @click="close" class="modal-close"></button>
+  </div>
+  `,
+  methods: {
+    close () {
+      this.$emit('close');
+    },
+    create() {
+      this.$emit('create', this.inputVal);
+    },
+  }
+});
+
+Vue.component('todo', {
+  props: ['todo'],
+  template: `
+  <div class="column is-one-third">
+    <div class="card">
+      <div class="card-content">
+        <figure class="">
+          <img>
+        </figure>
+        <p class="title">{{ todo.content }}</p>
+        <br>
+        <p class="subtitle is-6">Created At: </p>
+        <p class="subtitle is-6">Updated At:</p>
+      </div>
+      <footer class="card-footer">
+        <div class="card-footer-item">
+          <a class="button">
+            Done
+          </a>
+        </div>
+        <div class="card-footer-item">
+          <a class="button">
+            Update
+          </a>
+        </div>
+      </footer>
+    </div>
+  </div>
+  `,
+});
+
 Vue.component('name-field', {
   data() {
     return {
@@ -72,7 +145,7 @@ Vue.component('password-field', {
   watch: {
     inputVal(val) {
       this.$emit('input', val);
-    },
+    }
   },
   props: ['value'],
   template: `
@@ -94,9 +167,12 @@ var vm = new Vue({
     name: null,
     email: null,
     id: null,
+    todos: null,
+    modalActive: false,
   },
   created() {
     this.decode();
+    this.getToDos();
   },
   methods: {
     register() {
@@ -104,57 +180,94 @@ var vm = new Vue({
       console.log(this.registrationName);
       console.log(this.registrationPassword);
       axios.post('http://localhost:3000/users/registerWithForm', {
-        email: this.registrationEmail,
-        name: this.registrationName,
-        password: this.registrationPassword,
-      })
-      .then(() => {
-        window.alert('Successfully registered');
-        location.reload(true);
-      })
-      .catch((err) => {
-        console.log(err);
-        window.alert('Invalid name/email/password');
-      });
+          email: this.registrationEmail,
+          name: this.registrationName,
+          password: this.registrationPassword,
+        })
+        .then(() => {
+          window.alert('Successfully registered');
+          location.reload(true);
+        })
+        .catch((err) => {
+          console.log(err);
+          window.alert('Invalid name/email/password');
+        });
     },
     decode() {
       if (localStorage.userJwt) {
         axios.get('http://localhost:3000/authentication', {
-          'headers': {
-            'token': localStorage.userJwt,
-          }
-        })
-        .then((response) => {
-          console.log(response.data);
-          this.name = response.data.name;
-          this.email = response.data.email;
-          this.id = response.data._id;
-          this.isLoggedIn = true;
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+            'headers': {
+              'token': localStorage.userJwt,
+            },
+          })
+          .then((response) => {
+            console.log(response.data);
+            this.name = response.data.name;
+            this.email = response.data.email;
+            this.id = response.data._id;
+            this.isLoggedIn = true;
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       } else {
         console.log('gamasuk');
       }
     },
     login() {
       axios.post('http://localhost:3000/users/login', {
-        email: this.loginEmail,
-        password: this.loginPassword,
-      })
-      .then((res) => {
-        localStorage.userJwt = res.data;
-        window.alert('Successfully logged in');
-        location.reload(true);
-      })
-      .catch(() => {
-        window.alert('Invalid name/email/password');
-      });
+          email: this.loginEmail,
+          password: this.loginPassword,
+        })
+        .then((res) => {
+          localStorage.userJwt = res.data;
+          window.alert('Successfully logged in');
+          location.reload(true);
+        })
+        .catch(() => {
+          window.alert('Invalid name/email/password');
+        });
     },
     logout() {
       localStorage.clear();
       location.reload(true);
+    },
+    getToDos() {
+      axios.get('http://localhost:3000/todos/read', {
+        'headers': {
+          'token': localStorage.userJwt,
+        },
+      }).then((userToDos) => {
+        this.todos = userToDos.data;
+      })
+      .catch((err) => {
+        window.alert('something went wrong');
+        location.reload(true);
+      })
+    },
+    close() {
+      this.modalActive = false;
+    },
+    open() {
+      this.modalActive = true;
+    },
+    create(e) {
+      this.modalActive = false;
+      axios.post('http://localhost:3000/todos/create', {
+        content: e,
+      }, {
+        'headers': {
+          'token': localStorage.userJwt,
+        },
+      }).then((userToDos) => {
+        this.todos = userToDos.data;
+        window.alert('Successfully created a new ToDo');
+        location.reload(true);
+      })
+      .catch((err) => {
+        window.alert('something went wrong');
+        location.reload(true);
+      });
     }
   },
 });
