@@ -14,9 +14,10 @@ function statusChangeCallback(response) {
         token: authTokenFB,
       })
       .then(function(res) {
-        console.log(res.data);
+        console.log('-----', res.data);
         localStorage.userJwt = res.data;
         window.alert('Successfully logged in');
+        location.reload(true);
       })
       .catch(function(err) {
         console.log(err);

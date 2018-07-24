@@ -26,6 +26,7 @@ class Authentication {
         res
           .status(200)
           .send(decoded);
+          console.log(decoded);
       }
     });
   }

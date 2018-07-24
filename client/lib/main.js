@@ -152,5 +152,9 @@ var vm = new Vue({
         window.alert('Invalid name/email/password');
       });
     },
+    logout() {
+      localStorage.clear();
+      location.reload(true);
+    }
   },
 });

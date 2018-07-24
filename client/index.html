@@ -35,6 +35,15 @@
           <a class="navbar-item" v-if="isLoggedIn === false">
             <div class="fb-login-button" data-max-rows="1" data-size="medium" data-button-type="login_with" data-show-faces="false" data-auto-logout-link="false" data-use-continue-as="false" onlogin="checkLoginState();"></div>
           </a>
+          <div class="navbar-item has-dropdown is-hoverable" v-if="isLoggedIn === true">
+            <a class="navbar-item"> <i class="fas fa-user" style="margin: 10px"></i>{{ name }}</a>
+            <div class="navbar-dropdown is-boxed is-right">
+              <a class="navbar-item">Insights</a>
+              <a class="navbar-item">
+                <a class="button is-danger is-normal" style="margin: 8px" v-on:click='logout'>Logout</a>
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </nav>

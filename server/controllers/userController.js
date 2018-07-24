@@ -38,27 +38,26 @@ class UserController {
       fields: ['id', 'name', 'email'],
       access_token: userFbAccessToken
     }, function (response) {
+      console.log(response.id);
       user.find({
-          where: {
-            fbId: response.id,
-          },
+          fbid: response.id,
         })
         .then((userData) => {
-          console.log('logging in');
+          console.log(userData);
           jwt.sign({
-            _id: userData._id,
-            name: userData.name,
-            email: userData.email,
-            fbid: userData.fbid
+            _id: userData[0]._id,
+            name: userData[0].name,
+            email: userData[0].email,
+            fbid: userData[0].fbid
           }, process.env.JWT_SECRET_KEY, function (err, newlyCreatedJwtToken) {
             if (err) {
               res
                 .status(500)
-                .send(err)
+                .send(err);
             } else {
               res
                 .status(200)
-                .send(newlyCreatedJwtToken)
+                .send(newlyCreatedJwtToken);
             }
           });
         })
