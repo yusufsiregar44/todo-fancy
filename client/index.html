@@ -87,7 +87,7 @@
       </remove-todo>
 
       <div class="columns is-multiline" style="margin:10px">
-        <todo v-for="(todo, index) in todos" :todo="todo" @update="openUpdate" @remove="openRemove"></todo>
+        <todo v-for="(todo, index) in todos" :todo="todo" @update="openUpdate" @remove="openRemove" @done="done"></todo>
       </div>
     </section>
 

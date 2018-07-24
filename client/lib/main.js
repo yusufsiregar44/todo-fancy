@@ -157,7 +157,7 @@ Vue.component('todo', {
       </div>
       <footer class="card-footer">
         <div class="card-footer-item">
-          <a class="button">
+          <a class="button" @click="done">
             Done
           </a>
         </div>
@@ -181,6 +181,9 @@ Vue.component('todo', {
     },
     remove() {
       this.$emit('remove', [this.todoContent, this.todoCreatedAt, this.todoUpdatedAt, this.todoId])
+    },
+    done() {
+      this.$emit('done', [this.todoContent, this.todoId])
     },
   }
 });
@@ -428,5 +431,21 @@ var vm = new Vue({
           location.reload(true);
         });
     },
+    done(e) {
+      let title = e[0];
+      axios.delete(`http://localhost:3000/todos/${e[1]}`, {
+          'headers': {
+            'token': localStorage.userJwt,
+          },
+        }).then((userToDos) => {
+          window.alert(`Congratulations for completing ${title}`);
+          location.reload(true);
+        })
+        .catch((err) => {
+          console.log(err);
+          window.alert('something went wrong');
+          location.reload(true);
+        });
+    }
   },
 });
