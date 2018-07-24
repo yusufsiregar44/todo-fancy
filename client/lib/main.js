@@ -93,7 +93,7 @@ var vm = new Vue({
     isLoggedIn: false,
     name: null,
     email: null,
-    _id: null,
+    id: null,
   },
   created() {
     this.decode();
@@ -118,7 +118,25 @@ var vm = new Vue({
       });
     },
     decode() {
-
+      if (localStorage.userJwt) {
+        axios.get('http://localhost:3000/authentication', {
+          'headers': {
+            'token': localStorage.userJwt,
+          }
+        })
+        .then((response) => {
+          console.log(response.data);
+          this.name = response.data.name;
+          this.email = response.data.email;
+          this.id = response.data._id;
+          this.isLoggedIn = true;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      } else {
+        console.log('gamasuk');
+      }
     },
     login() {
       axios.post('http://localhost:3000/users/login', {
