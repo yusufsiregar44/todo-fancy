@@ -10,7 +10,7 @@ function statusChangeCallback(response) {
   if (response.status === 'connected') {
     const authTokenFB = response.authResponse.accessToken;
 
-    axios.post("http://localhost:3000/users/loginWithFB", {
+    axios.post("http://35.240.171.48/users/loginWithFB", {
         token: authTokenFB,
       })
       .then(function(res) {

@@ -129,8 +129,13 @@ Vue.component('remove-todo', {
 Vue.component('done-todo', {
   data() {
     return {
-      title: this.datatodo,
+      title: '',
     };
+  },
+  watch: {
+    datatodo: function (n, o) {
+      this.title = n;
+    },
   },
   props: ['datatodo'],
   template: `
@@ -161,7 +166,7 @@ Vue.component('done-todo', {
       window.open(addrress);
       location.reload(true);
     },
-  }
+  },
 });
 
 Vue.component('todo', {
@@ -481,6 +486,7 @@ var vm = new Vue({
         });
     },
     openDone(e) {
+      this.doneTodoTitle = e[0];
       axios.delete(`http://localhost:3000/todos/${e[1]}`, {
           'headers': {
             'token': localStorage.userJwt,
@@ -491,7 +497,6 @@ var vm = new Vue({
           }).then((response) => {
             console.log(response);
             this.doneModalActive = true;
-            this.doneTodoTitle = e[0];
           })
           .catch((err) => {
             console.log(err);
