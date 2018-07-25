@@ -10,8 +10,6 @@
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   <script defer src="https://use.fontawesome.com/releases/v5.1.0/js/all.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
-  <!-- <script crossorigin src="https://cdn.jsdelivr.net/npm/keen-tracking@3"></script> -->
-  <!-- <script src="./lib/keen.js"></script> -->
 </head>
 
 <body>
@@ -41,6 +39,7 @@
             <a class="navbar-item"> <i class="fas fa-user" style="margin: 10px"></i>{{ name }}</a>
             <div class="navbar-dropdown is-boxed is-right">
               <a class="navbar-item">Insights</a>
+              <hr class="navbar-divider">
               <a class="navbar-item">
                 <a class="button is-danger is-normal" style="margin: 8px" v-on:click='logout'>Logout</a>
               </a>
@@ -88,8 +87,12 @@
 
       </remove-todo>
 
+      <done-todo v-bind:class="{'is-active':doneModalActive}" @close="close" :datatodo="doneTodoTitle">
+
+      </done-todo>
+
       <div class="columns is-multiline" style="margin:10px">
-        <todo v-for="(todo, index) in todos" :todo="todo" @update="openUpdate" @remove="openRemove" @done="done"></todo>
+        <todo v-for="(todo, index) in todos" :todo="todo" @update="openUpdate" @remove="openRemove" @done="openDone"></todo>
       </div>
     </section>
 

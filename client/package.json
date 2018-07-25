@@ -58,5 +58,6 @@
     "js-watch": "npm run js-build -- --watch",
     "start": "npm run css-watch"
   },
-  "version": "0.0.2"
+  "version": "0.0.2",
+  "dependencies": {}
 }

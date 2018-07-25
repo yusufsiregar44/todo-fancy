@@ -1,13 +1,3 @@
-Vue.component('tweet-button', {
-  template: '<a class="button is-outlined is-light" v-on:click="tweet"><span class="icon"><i class="fab fa-twitter"></i></span><span>Tweet</span></a>',
-  methods: {
-    tweet: function () {
-      let caption = 'check this out!';
-      let addrress = `https://twitter.com/intent/tweet?text=${caption}`;
-      window.location = addrress;
-    },
-  },
-});
 
 Vue.component('create-todo', {
   data() {
@@ -132,6 +122,44 @@ Vue.component('remove-todo', {
     },
     remove() {
       this.$emit('remove', this.datatodo[3]);
+    },
+  }
+});
+
+Vue.component('done-todo', {
+  data() {
+    return {
+      title: this.datatodo,
+    };
+  },
+  props: ['datatodo'],
+  template: `
+  <div class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-content">
+      <div class="box">
+        <div class="content has-text-centered">
+          <p>Congratulations in completing <strong>{{ datatodo }}</strong>, share the good news to your friends!</p>
+        </div>
+        <div class="content has-text-centered">
+        <a class="button is-success is-focused" @click="close">Nahh</a>
+        <a class="button is-outlined is-info" v-on:click="tweet"><span class="icon"><i class="fab fa-twitter"></i></span><span>Tweet</span></a>
+          <span>&nbsp;</span>
+      </div>
+    </div>
+  </div>
+</div>
+  `,
+  methods: {
+    close() {
+      this.$emit('close');
+      location.reload(true);
+    },
+    tweet() {
+      let caption = `I just finished ${this.title} at justaratherfancyToDo, check it out! http://justaratherfancyToDo.yusufsiregar.com`;
+      let addrress = `https://twitter.com/intent/tweet?text=${caption}`;
+      window.open(addrress);
+      location.reload(true);
     },
   }
 });
@@ -274,11 +302,13 @@ var vm = new Vue({
     email: null,
     id: null,
     todos: null,
+    doneModalActive: false,
     createModalActive: false,
     updateModalActive: false,
     updateModalData: null,
     removeModalActive: false,
     removeModalData: null,
+    doneTodoTitle: null,
   },
   created() {
     this.decode();
@@ -367,6 +397,7 @@ var vm = new Vue({
       this.createModalActive = false;
       this.updateModalActive = false;
       this.removeModalActive = false;
+      this.doneModalActive = false;
     },
     openRemove(e) {
       this.removeModalData = e;
@@ -449,8 +480,7 @@ var vm = new Vue({
           location.reload(true);
         });
     },
-    done(e) {
-      let title = e[0];
+    openDone(e) {
       axios.delete(`http://localhost:3000/todos/${e[1]}`, {
           'headers': {
             'token': localStorage.userJwt,
@@ -460,8 +490,8 @@ var vm = new Vue({
             userId: this.id,
           }).then((response) => {
             console.log(response);
-            window.alert(`Congratulations in completing ${title}`);
-            location.reload(true);
+            this.doneModalActive = true;
+            this.doneTodoTitle = e[0];
           })
           .catch((err) => {
             console.log(err);
@@ -474,6 +504,9 @@ var vm = new Vue({
           window.alert('something went wrong');
           location.reload(true);
         });
+    },
+    openInsights() {
+      this.insightsModalActive = true;
     }
   },
 });
