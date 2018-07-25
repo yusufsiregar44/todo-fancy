@@ -156,7 +156,7 @@ Vue.component('done-todo', {
       location.reload(true);
     },
     tweet() {
-      let caption = `I just finished ${this.title} at justaratherfancyToDo, check it out! http://justaratherfancyToDo.yusufsiregar.com`;
+      let caption = `I just finished ${this.title} at justaratherfancyToDo, check it out! http://justaratherfancytodo.yusufsiregar.com`;
       let addrress = `https://twitter.com/intent/tweet?text=${caption}`;
       window.open(addrress);
       location.reload(true);
