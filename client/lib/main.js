@@ -290,7 +290,7 @@ Vue.component('password-field', {
   template: `
   <div class="field">
     <p class="control has-icons-left">
-      <input class="input is-small" name="password" type="password" placeholder="Password" v-model="inputVal" required>
+      <input class="input is-small" name="password" type="password" placeholder="minimum 8 characters" v-model="inputVal" required>
       <span class="icon is-small is-left">
         <i class="fas fa-lock"></i>
       </span>
@@ -324,7 +324,7 @@ var vm = new Vue({
       console.log(this.registrationEmail);
       console.log(this.registrationName);
       console.log(this.registrationPassword);
-      axios.post('http://localhost:3000/users/registerWithForm', {
+      axios.post('http://35.240.171.48/users/registerWithForm', {
           email: this.registrationEmail,
           name: this.registrationName,
           password: this.registrationPassword,
@@ -340,7 +340,7 @@ var vm = new Vue({
     },
     decode() {
       if (localStorage.userJwt) {
-        axios.get('http://localhost:3000/authentication', {
+        axios.get('http://35.240.171.48/authentication', {
             'headers': {
               'token': localStorage.userJwt,
             },
@@ -360,7 +360,7 @@ var vm = new Vue({
       }
     },
     login() {
-      axios.post('http://localhost:3000/users/login', {
+      axios.post('http://35.240.171.48/users/login', {
           email: this.loginEmail,
           password: this.loginPassword,
         })
@@ -378,7 +378,7 @@ var vm = new Vue({
       location.reload(true);
     },
     getToDos() {
-      axios.get('http://localhost:3000/todos/', {
+      axios.get('http://35.240.171.48/todos/', {
         'headers': {
           'token': localStorage.userJwt,
         },
@@ -418,7 +418,7 @@ var vm = new Vue({
     },
     create(e) {
       this.createModalActive = false;
-      axios.post('http://localhost:3000/todos', {
+      axios.post('http://35.240.171.48/todos', {
           content: e,
         }, {
           'headers': {
@@ -444,7 +444,7 @@ var vm = new Vue({
         });
     },
     update(e) {
-      axios.put(`http://localhost:3000/todos/${e[1]}`, {
+      axios.put(`http://35.240.171.48/todos/${e[1]}`, {
           content: e[0],
         }, {
           'headers': {
@@ -461,7 +461,7 @@ var vm = new Vue({
     },
     remove(e) {
       console.log(e);
-      axios.delete(`http://localhost:3000/todos/${e}`, {
+      axios.delete(`http://35.240.171.48/todos/${e}`, {
           'headers': {
             'token': localStorage.userJwt,
           },
@@ -487,7 +487,7 @@ var vm = new Vue({
     },
     openDone(e) {
       this.doneTodoTitle = e[0];
-      axios.delete(`http://localhost:3000/todos/${e[1]}`, {
+      axios.delete(`http://35.240.171.48/todos/${e[1]}`, {
           'headers': {
             'token': localStorage.userJwt,
           },
