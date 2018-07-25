@@ -33,7 +33,7 @@ Vue.component('create-todo', {
             </span>
           </p>
         </div>
-          <a class="button is-success is-focused" @click="create">Create</a>
+          <a class="button is-success is-focused" @click="create" id="create-todo">Create</a>
           <span>&nbsp;</span>
         </div>
       </div>
@@ -80,7 +80,7 @@ Vue.component('update-todo', {
             </span>
           </p>
         </div>
-          <a class="button is-success is-focused" @click="update">Update</a>
+          <a class="button is-warning is-focused" @click="update">Update</a>
           <span>&nbsp;</span>
         </div>
       </div>
@@ -157,17 +157,17 @@ Vue.component('todo', {
       </div>
       <footer class="card-footer">
         <div class="card-footer-item">
-          <a class="button" @click="done">
+          <a class="button is-success" @click="done" id="done-todo">
             Done
           </a>
         </div>
         <div class="card-footer-item">
-          <a class="button" @click="update">
+          <a class="button is-warning" @click="update">
             Update
           </a>
         </div>
         <div class="card-footer-item">
-          <a class="button" @click="remove">
+          <a class="button is-danger" @click="remove">
             Remove
           </a>
         </div>
@@ -388,10 +388,19 @@ var vm = new Vue({
           'headers': {
             'token': localStorage.userJwt,
           },
-        }).then((userToDos) => {
-          this.todos = userToDos.data;
-          window.alert('Successfully created a new ToDo');
-          location.reload(true);
+        }).then(() => {
+          axios.post('https://api.keen.io/3.0/projects/5b573133c9e77c000175c9de/events/create_todo?api_key=9E7AAED4F5EA9CECD1C342CE804F92CE85B083E6F91742EA0BCCF0C9FCC820CF8F083AF98F9BDA336CE25B5F26783148AF2714C7391F1E920EC5E44047DF2302ACD211EF8E636E527C42D8B4D75DB3C2CD02AA46112AC28784469259EE68B77F', {
+            userId: this.id,
+          }).then((response) => {
+            console.log(response);
+            window.alert('Successfully created a new ToDo');
+            location.reload(true);
+          })
+          .catch((err) => {
+            console.log(err);
+            window.alert('something went wrong');
+            location.reload(true);
+          })
         })
         .catch((err) => {
           window.alert('something went wrong');
@@ -406,7 +415,6 @@ var vm = new Vue({
             'token': localStorage.userJwt,
           },
         }).then((userToDos) => {
-          this.todos = userToDos.data;
           window.alert('Successfully updated ToDo');
           location.reload(true);
         })
@@ -421,9 +429,19 @@ var vm = new Vue({
           'headers': {
             'token': localStorage.userJwt,
           },
-        }).then((userToDos) => {
-          window.alert('Successfully deleted ToDo');
-          location.reload(true);
+        }).then(() => {
+          axios.post('https://api.keen.io/3.0/projects/5b573133c9e77c000175c9de/events/remove_todo?api_key=9E7AAED4F5EA9CECD1C342CE804F92CE85B083E6F91742EA0BCCF0C9FCC820CF8F083AF98F9BDA336CE25B5F26783148AF2714C7391F1E920EC5E44047DF2302ACD211EF8E636E527C42D8B4D75DB3C2CD02AA46112AC28784469259EE68B77F', {
+            userId: this.id,
+          }).then((response) => {
+            console.log(response);
+            window.alert('Successfully deleted ToDo');
+            location.reload(true);
+          })
+          .catch((err) => {
+            console.log(err);
+            window.alert('something went wrong');
+            location.reload(true);
+          })
         })
         .catch((err) => {
           console.log(err);
@@ -438,8 +456,18 @@ var vm = new Vue({
             'token': localStorage.userJwt,
           },
         }).then((userToDos) => {
-          window.alert(`Congratulations for completing ${title}`);
-          location.reload(true);
+          axios.post('https://api.keen.io/3.0/projects/5b573133c9e77c000175c9de/events/done_todo?api_key=9E7AAED4F5EA9CECD1C342CE804F92CE85B083E6F91742EA0BCCF0C9FCC820CF8F083AF98F9BDA336CE25B5F26783148AF2714C7391F1E920EC5E44047DF2302ACD211EF8E636E527C42D8B4D75DB3C2CD02AA46112AC28784469259EE68B77F', {
+            userId: this.id,
+          }).then((response) => {
+            console.log(response);
+            window.alert(`Congratulations in completing ${title}`);
+            location.reload(true);
+          })
+          .catch((err) => {
+            console.log(err);
+            window.alert('something went wrong');
+            location.reload(true);
+          })
         })
         .catch((err) => {
           console.log(err);
